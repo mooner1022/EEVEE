@@ -19,4 +19,5 @@
     <color name="mdm_locked_employee">#089fc5</color>
     <color name="mdm_locked_visitor">#ffff5b</color>
     <color name="mdm_locked_guest">#7c4d95</color>
+    <color name="mdm_log_bg_red">#5a433c</color>
 </resources>

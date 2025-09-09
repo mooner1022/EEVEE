@@ -11,7 +11,7 @@ import dev.mooner.eevee.UserMode
 import dev.mooner.eevee.service.CameraBlockingManager
 import dev.mooner.eevee.view.info.AppInfoActivity
 
-class SettingsViewModel(private val repository: SettingsRepository) : ViewModel() {
+class SettingsViewModel(private val repository: Repository = InMemoryRepository()) : ViewModel() {
 
     private val _settingsData = MutableLiveData<List<SettingGroup>>()
     val settingsData: LiveData<List<SettingGroup>> = _settingsData
@@ -53,6 +53,12 @@ class SettingsViewModel(private val repository: SettingsRepository) : ViewModel(
                     title = "실제 기능 잠금",
                     summary = "카메라 기능을 실제로 제한합니다.",
                     defaultValue = true
+                ),
+                SwitchSetting(
+                    key = Constants.KEY_EDIT_LOG,
+                    title = "로그 편집 활성화",
+                    summary = "로그 편집을 가능하게 합니다.\n스와이프하여 항목을 제거할 수 있습니다.",
+                    defaultValue = false
                 ),
                 TextSetting(
                     key = Constants.KEY_SHOWN_VERSION,

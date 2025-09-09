@@ -9,6 +9,8 @@ class Constants {
         const val KEY_LOCK_STATE      = "lock_state"
         const val KEY_INSTALL_TIME    = "install_time"
         const val KEY_LOCK_START_TIME = "lock_start_time"
+        const val KEY_EDIT_LOG        = "edit_log"
+        const val KEY_LOG_DATA        = "log_data"
 
         const val UNLOCK_VIB_DURATION = 1500L
     }

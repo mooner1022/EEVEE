@@ -28,6 +28,7 @@ import dev.mooner.eevee.databinding.ActivityUnlockGpsBinding
 import dev.mooner.eevee.event.EventHandler
 import dev.mooner.eevee.event.Events
 import dev.mooner.eevee.utils.AssetUtils
+import dev.mooner.eevee.utils.LogUtils
 import dev.mooner.eevee.utils.VibrationUtils
 import dev.mooner.eevee.view.settings.SettingsRepository
 import java.util.*
@@ -170,6 +171,7 @@ class UnlockGPSActivity : AppCompatActivity() {
         repository.setBooleanValue(Constants.KEY_LOCK_STATE, false)
         EventHandler.fireEventWithScope(Events.MDM.LockStateUpdate(locked = false))
         VibrationUtils.vibrate(this, Constants.UNLOCK_VIB_DURATION)
+        LogUtils
         AlertDialog.Builder(this@UnlockGPSActivity)
             .setMessage("""
                 |기능을 허용합니다.
