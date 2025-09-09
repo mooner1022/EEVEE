@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="common_major_color">#5a433d</color>
+    <color name="common_base_color_txt">#ffffff</color>
+    <color name="common_base_color_txt_yellow">#deaa3c</color>
+    <color name="mdm_background">#252525</color>
+    <color name="mdm_drawer_background">#383838</color>
+    <color name="mdm_drawer_header_background">#181818</color>
+    <color name="common_mndmdm_background">#202020</color>
+    <color name="common_mndmdm_list_border">#4c4c48</color>
+    <color name="mdm_background_footer">#121212</color>
+    <color name="mdm_text_gray">#989898</color>
+    <color name="mdm_unlocked_red">#b22d2d</color>
+    <color name="mdm_locked_soldier">#deaa3c</color>
+    <color name="mdm_locked_employee">#089fc5</color>
+    <color name="mdm_locked_visitor">#ffff5b</color>
+    <color name="mdm_locked_guest">#7c4d95</color>
+</resources>

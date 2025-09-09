@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">EEVEE</string>
+
+    <string name="navigate_to_setting">설정으로 이동</string>
+    <string name="settings">설정</string>
+    <string name="general_settings">일반 설정</string>
+    <string name="advanced_settings">고급 설정</string>
+    <string name="notifications">알림</string>
+    <string name="auto_sync">자동 동기화</string>
+    <string name="theme">테마</string>
+    <string name="clear_cache">캐시 정리</string>
+    <string name="about">앱 정보</string>
+    <string name="cancel">취소</string>
+
+    <string name="mdm_devman_profile_name">EEVEE 기기 관리자</string>
+
+    <string name="mndmdm_common_add_func_deny">기능 차단</string>
+    <string name="mndmdm_common_deny_first"></string>
+    <string name="mndmdm_common_deny_second"></string>
+    <string name="mndmdm_common_beacon_allow">기능해제(비콘)</string>
+    <string name="mndmdm_common_gps_allow">기능해제(GPS)</string>
+    <string name="mndmdm_common_check_entry_control"></string>
+    <string name="mndmdm_common_call_center">고객지원센터\n02) 6424 - 5282 ~ 5284</string>
+
+    <string name="camera_blocking_service_description">카메라 앱 차단을 위한 접근성 서비스입니다. 이 서비스는 카메라 앱이 실행될 때 자동으로 차단합니다.</string>
+</resources>

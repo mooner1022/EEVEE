@@ -1,0 +1,60 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.EEVEE" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textColor">@color/common_base_color_txt</item>
+    </style>
+
+    <style name="Theme.EEVEE" parent="Base.Theme.EEVEE"/>
+
+    <style name="Theme.EEVEE.TransparentOverlay" parent="Theme.EEVEE">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowShowWallpaper">true</item>
+    </style>
+
+    <!--
+    SettingsActivity style attributes
+    -->
+    <style name="SettingHeaderTextStyle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <style name="SettingTitleTextStyle" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="SettingSummaryTextStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!--
+    MNDMDM base style polyfill
+    -->
+    <style name="Theme.EEVEE.Button" parent="Theme.EEVEE">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingHorizontal">11dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:background">@drawable/transparent_bg_bordered_button</item>
+    </style>
+    <style name="TopTextTitle" parent="Theme.EEVEE">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:textColor">@color/common_base_color_txt</item>
+    </style>
+    <style name="TopTextContentsMid" parent="Theme.EEVEE">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/common_base_color_txt</item>
+    </style>
+</resources>

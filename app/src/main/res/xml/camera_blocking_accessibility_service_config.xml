@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagIncludeNotImportantViews"
+    android:canRetrieveWindowContent="false"
+    android:description="@string/camera_blocking_service_description"
+    android:notificationTimeout="100"
+    android:packageNames="com.android.camera,com.android.camera2,com.google.android.GoogleCamera,com.samsung.android.camera,com.huawei.camera,com.xiaomi.camera,com.oppo.camera,com.vivo.camera,com.oneplus.camera,com.motorola.camera,com.lge.camera,com.htc.camera,com.sony.camera"
+    android:settingsActivity="dev.mooner.eevee.view.settings.SettingsActivity" />
