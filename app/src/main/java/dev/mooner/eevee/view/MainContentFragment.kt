@@ -20,8 +20,10 @@ import dev.mooner.eevee.databinding.FragmentMainContentBinding
 import dev.mooner.eevee.event.EventHandler
 import dev.mooner.eevee.event.Events
 import dev.mooner.eevee.event.on
+import dev.mooner.eevee.utils.LogUtils
 import dev.mooner.eevee.utils.VibrationUtils
 import dev.mooner.eevee.view.gps.UnlockGPSActivity
+import dev.mooner.eevee.view.log.LogItem
 import dev.mooner.eevee.view.settings.SettingsRepository
 import kotlinx.coroutines.*
 import java.time.Instant
@@ -71,6 +73,10 @@ class MainContentFragment : Fragment() {
             repository.setBooleanValue(Constants.KEY_LOCK_STATE, true)
             EventHandler.fireEventWithScope(Events.MDM.LockStateUpdate(locked = true))
             VibrationUtils.vibrate(requireContext(), Constants.UNLOCK_VIB_DURATION)
+            LogUtils.appendLogItem(requireContext(), LogItem(
+                type = LogItem.Type.LOCK,
+                appVersion = repository.getStringValue(Constants.KEY_SHOWN_VERSION, "2.1.71"),
+            ))
 
             val devmanName = ComponentName(requireContext(), DeviceAdminBroadcastReceiver::class.java)
             val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {

@@ -13,6 +13,8 @@ import dev.mooner.eevee.R
 import dev.mooner.eevee.UserMode
 import dev.mooner.eevee.event.EventHandler
 import dev.mooner.eevee.event.Events
+import dev.mooner.eevee.utils.LogUtils
+import dev.mooner.eevee.view.log.LogItem
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -20,9 +22,15 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var adapter: SettingsAdapter
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var repository: SettingsRepository
+    private var orgShownVersion: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        repository = SettingsRepository(this)
+        orgShownVersion = repository.getStringValue(Constants.KEY_SHOWN_VERSION, "2.1.71")
 
         setupViewModel()
         setupToolbar()
@@ -74,6 +82,14 @@ class SettingsActivity : AppCompatActivity() {
             "notifications_enabled" -> {
                 // 알림 설정 변경 처리
                 toggleNotifications(value as Boolean)
+            }
+            Constants.KEY_SHOWN_VERSION -> {
+                val version = value as String
+                LogUtils.appendLogItem(this, LogItem(
+                    type = LogItem.Type.APP_UPDATE,
+                    desc = "$orgShownVersion-->$version",
+                    appVersion = version
+                ))
             }
             Constants.KEY_USER_MODE -> {
                 val mode = UserMode.valueOf(value as String)

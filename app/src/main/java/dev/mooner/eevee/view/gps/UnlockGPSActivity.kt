@@ -30,6 +30,7 @@ import dev.mooner.eevee.event.Events
 import dev.mooner.eevee.utils.AssetUtils
 import dev.mooner.eevee.utils.LogUtils
 import dev.mooner.eevee.utils.VibrationUtils
+import dev.mooner.eevee.view.log.LogItem
 import dev.mooner.eevee.view.settings.SettingsRepository
 import java.util.*
 import kotlin.math.atan2
@@ -133,6 +134,13 @@ class UnlockGPSActivity : AppCompatActivity() {
             Toast.makeText(this, "GPS가 비활성화되어 있습니다", Toast.LENGTH_SHORT).show()
             return
         }
+
+        val repository = SettingsRepository(this)
+        LogUtils.appendLogItem(this, LogItem(
+            type = LogItem.Type.TRY_UNLOCK_GPS,
+            desc = "시도",
+            appVersion = repository.getStringValue(Constants.KEY_SHOWN_VERSION, "2.1.71"),
+        ))
         
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location: Location? ->
@@ -171,7 +179,11 @@ class UnlockGPSActivity : AppCompatActivity() {
         repository.setBooleanValue(Constants.KEY_LOCK_STATE, false)
         EventHandler.fireEventWithScope(Events.MDM.LockStateUpdate(locked = false))
         VibrationUtils.vibrate(this, Constants.UNLOCK_VIB_DURATION)
-        LogUtils
+        LogUtils.appendLogItem(this, LogItem(
+            type = LogItem.Type.TRY_UNLOCK_GPS,
+            desc = "완료",
+            appVersion = repository.getStringValue(Constants.KEY_SHOWN_VERSION, "2.1.71"),
+        ))
         AlertDialog.Builder(this@UnlockGPSActivity)
             .setMessage("""
                 |기능을 허용합니다.
