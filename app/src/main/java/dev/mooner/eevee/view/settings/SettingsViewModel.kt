@@ -105,12 +105,14 @@ class SettingsViewModel(private val repository: Repository = InMemoryRepository(
                  */
             )),
             SettingGroup("고급 설정", listOf(
+                /*
                 CustomSetting(
                     key = "camera_blocking_setup",
                     title = "카메라 차단 서비스 설정",
                     summary = "접근성 서비스를 통한 카메라 차단 기능을 설정합니다",
                     customAction = { setupCameraBlocking() }
                 ),
+                 */
                 CustomSetting(
                     key = "about",
                     title = "앱 정보",
