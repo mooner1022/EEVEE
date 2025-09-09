@@ -56,6 +56,11 @@ class LogViewActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@LogViewActivity)
             adapter = logAdapter
         }
+        
+        // Set up click listener for editing log items
+        logAdapter.setOnItemClickListener { logItem, position ->
+            showEditLogDialog(logItem, position)
+        }
     }
 
     private fun setupSwipeToRemove() {
@@ -96,29 +101,24 @@ class LogViewActivity : AppCompatActivity() {
 
     fun showAddLogDialog() {
         val dialog = AddLogDialog(this) { newLogItem ->
-            val insertionIdx = findInsertPosition(logItems, newLogItem)
+            val insertionIdx = LogUtils.appendLogItem(this, newLogItem)
+
             logItems.add(insertionIdx, newLogItem)
             logAdapter.notifyItemInserted(insertionIdx)
             binding.rvLog.scrollToPosition(insertionIdx)
-            LogUtils.saveLogData(this, logItems)
         }
         dialog.show()
     }
 
-    private fun <T : Comparable<T>> findInsertPosition(list: List<T>, item: T): Int {
-        var left = 0
-        var right = list.size
-
-        while (left < right) {
-            val mid = left + (right - left) / 2
-
-            if (list[mid] < item) {
-                left = mid + 1
-            } else {
-                right = mid
-            }
-        }
-
-        return left
+    private fun showEditLogDialog(logItem: LogItem, position: Int) {
+        val dialog = AddLogDialog(this, logItem, { editedLogItem ->
+            // Update the log item in the list
+            logItems[position] = editedLogItem
+            logAdapter.notifyItemChanged(position)
+            
+            // Update the saved data
+            LogUtils.saveLogData(this, logItems)
+        })
+        dialog.show()
     }
 }

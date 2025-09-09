@@ -1,14 +1,15 @@
 package dev.mooner.eevee.view.log
 
+import dev.mooner.eevee.utils.getAndroidVersionName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class LogItem(
     val type: Type,
     val desc: String? = null,
-    val timestamp: Long,
+    val timestamp: Long = System.currentTimeMillis(),
     val appVersion: String,
-    val androidVersion: String,
+    val androidVersion: String = "Android ${getAndroidVersionName()}",
 ): Comparable<LogItem> {
 
     enum class Type {

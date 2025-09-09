@@ -15,15 +15,34 @@ object LogUtils {
         return parsed
     }
 
-    fun appendLogItem(context: Context, item: LogItem) {
+    fun appendLogItem(context: Context, item: LogItem): Int {
         val org = readLogData(context).toMutableList()
-        org += item
+        val insertionIdx = findInsertPosition(org, item)
+        org.add(insertionIdx, item)
         saveLogData(context, org)
+        return insertionIdx
     }
 
     fun saveLogData(context: Context, data: List<LogItem>) {
         val encoded = Json.encodeToString(data)
         getRepo(context).setStringValue(Constants.KEY_LOG_DATA, encoded)
+    }
+
+    fun <T : Comparable<T>> findInsertPosition(list: List<T>, item: T): Int {
+        var left = 0
+        var right = list.size
+
+        while (left < right) {
+            val mid = left + (right - left) / 2
+
+            if (list[mid] < item) {
+                left = mid + 1
+            } else {
+                right = mid
+            }
+        }
+
+        return left
     }
 
     private fun getRepo(context: Context): SettingsRepository {

@@ -15,7 +15,8 @@ import dev.mooner.eevee.view.settings.*
 
 class AddLogDialog(
     private val context: Context,
-    private val onLogAdded: (LogItem) -> Unit
+    private val editingLogItem: LogItem? = null,
+    private val onLogAdded: (LogItem) -> Unit,
 ) {
     private val viewModel = SettingsViewModel(InMemoryRepository())
     private lateinit var adapter: SettingsAdapter
@@ -35,7 +36,7 @@ class AddLogDialog(
         val cancelButton = view.findViewById<MaterialButton>(R.id.cancelButton)
         val confirmButton = view.findViewById<MaterialButton>(R.id.confirmButton)
         
-        title.text = "로그 항목 추가"
+        title.text = if (editingLogItem != null) "로그 항목 편집" else "로그 항목 추가"
         
         // Setup RecyclerView with settings
         adapter = SettingsAdapter(viewModel, context)
@@ -46,10 +47,20 @@ class AddLogDialog(
         val settingGroups = createLogInputSettings()
         adapter.updateSettings(settingGroups)
         
+        // Pre-populate values if editing
+        editingLogItem?.let { logItem ->
+            viewModel.updateStringSetting("log_type", logItem.type.name)
+            viewModel.updateStringSetting("log_description", logItem.desc ?: "")
+            viewModel.updateLongSetting("log_timestamp", logItem.timestamp)
+            viewModel.updateStringSetting("app_version", logItem.appVersion)
+        }
+        
         // Setup buttons
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
+        
+        confirmButton.text = if (editingLogItem != null) "수정" else "추가"
         
         confirmButton.setOnClickListener {
             addLogItem()
@@ -75,28 +86,28 @@ class AddLogDialog(
                     summary = "추가할 로그의 유형을 선택하세요",
                     entries = logTypeDisplayNames.values.toList(),
                     entryValues = logTypeDisplayNames.keys.map { it.name },
-                    defaultValue = LogItem.Type.INITIAL_INSTALL.name
+                    defaultValue = editingLogItem?.type?.name ?: LogItem.Type.INITIAL_INSTALL.name
                 ),
                 TextSetting(
                     key = "log_description", 
                     title = "설명",
                     summary = "로그에 대한 추가 설명을 입력하세요 (선택사항)",
-                    defaultValue = "",
+                    defaultValue = editingLogItem?.desc ?: "",
                     hint = "로그 설명을 입력하세요"
                 ),
                 DateTimeSetting(
                     key = "log_timestamp",
                     title = "로그 발생 시각",
                     summary = "로그가 발생한 시각을 입력하세요 (선택사항)",
-                    defaultValue = System.currentTimeMillis(),
-                    dateFormat = "yyyy년 MM월 dd일 HH:mm",
+                    defaultValue = editingLogItem?.timestamp ?: System.currentTimeMillis(),
+                    dateFormat = "yyyy년 MM월 dd일 HH:mm:ss",
                     use24HourFormat = true
                 ),
                 TextSetting(
                     key = "app_version",
                     title = "표시될 버전",
                     summary = "로그에 표시될 앱 버전입니다.",
-                    defaultValue = "2.1.71",
+                    defaultValue = editingLogItem?.appVersion ?: getAppVersion(),
                     hint = "ex) 2.1.71"
                 ),
             ))

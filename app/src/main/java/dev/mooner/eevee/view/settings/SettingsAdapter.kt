@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.View
 import android.widget.DatePicker
+import android.widget.NumberPicker
 import android.widget.RadioButton
 import android.widget.SeekBar
 import android.widget.TextView
@@ -399,7 +400,7 @@ class SettingsAdapter(
             timePickerFragment?.let { timeFragment ->
                 calendar.set(Calendar.HOUR_OF_DAY, timeFragment.getSelectedHour())
                 calendar.set(Calendar.MINUTE, timeFragment.getSelectedMinute())
-                calendar.set(Calendar.SECOND, 0)
+                calendar.set(Calendar.SECOND, timeFragment.getSelectedSecond())
                 calendar.set(Calendar.MILLISECOND, 0)
             }
             
@@ -443,6 +444,7 @@ class SettingsAdapter(
     
     class TimePickerFragment : Fragment() {
         private lateinit var timePicker: TimePicker
+        private lateinit var secondsPicker: NumberPicker
         
         companion object {
             fun newInstance(calendar: Calendar, use24HourFormat: Boolean): TimePickerFragment {
@@ -450,6 +452,7 @@ class SettingsAdapter(
                 fragment.arguments = android.os.Bundle().apply {
                     putInt("hour", calendar.get(Calendar.HOUR_OF_DAY))
                     putInt("minute", calendar.get(Calendar.MINUTE))
+                    putInt("second", calendar.get(Calendar.SECOND))
                     putBoolean("use24HourFormat", use24HourFormat)
                 }
                 return fragment
@@ -459,10 +462,17 @@ class SettingsAdapter(
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: android.os.Bundle?): View? {
             val view = inflater.inflate(R.layout.fragment_time_picker, container, false)
             timePicker = view.findViewById(R.id.timePicker)
+            secondsPicker = view.findViewById(R.id.secondsPicker)
+            
+            // Setup seconds picker
+            secondsPicker.minValue = 0
+            secondsPicker.maxValue = 59
+            secondsPicker.setFormatter { String.format("%02d", it) }
             
             arguments?.let { args ->
                 val hour = args.getInt("hour")
                 val minute = args.getInt("minute")
+                val second = args.getInt("second", 0)
                 val use24HourFormat = args.getBoolean("use24HourFormat", true)
                 
                 timePicker.setIs24HourView(use24HourFormat)
@@ -475,6 +485,8 @@ class SettingsAdapter(
                     @Suppress("DEPRECATION")
                     timePicker.currentMinute = minute
                 }
+                
+                secondsPicker.value = second
             }
             
             return view
@@ -493,6 +505,8 @@ class SettingsAdapter(
             @Suppress("DEPRECATION")
             timePicker.currentMinute
         }
+        
+        fun getSelectedSecond(): Int = secondsPicker.value
     }
     
     class BottomSheetListAdapter(

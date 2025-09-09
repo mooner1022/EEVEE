@@ -10,7 +10,8 @@ import java.util.*
 
 class LogAdapter(
     private val logItems: MutableList<LogItem>,
-    private var swipeToRemoveEnabled: Boolean = false
+    private var swipeToRemoveEnabled: Boolean = false,
+    private var onItemClick: ((LogItem, Int) -> Unit)? = null
 ) : RecyclerView.Adapter<LogAdapter.LogViewHolder>() {
 
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
@@ -20,6 +21,10 @@ class LogAdapter(
     }
 
     fun isSwipeToRemoveEnabled(): Boolean = swipeToRemoveEnabled
+
+    fun setOnItemClickListener(listener: (LogItem, Int) -> Unit) {
+        onItemClick = listener
+    }
 
     fun removeItem(position: Int) {
         if (position >= 0 && position < logItems.size) {
@@ -44,7 +49,17 @@ class LogAdapter(
     }
 
     override fun onBindViewHolder(holder: LogViewHolder, position: Int) {
-        holder.bind(logItems[position])
+        val logItem = logItems[position]
+        holder.bind(logItem)
+        
+        // Set click listener only if swipeToRemoveEnabled (edit mode)
+        if (swipeToRemoveEnabled) {
+            holder.itemView.setOnClickListener {
+                onItemClick?.invoke(logItem, position)
+            }
+        } else {
+            holder.itemView.setOnClickListener(null)
+        }
     }
 
     override fun getItemCount(): Int = logItems.size
@@ -58,7 +73,7 @@ class LogAdapter(
             val (typeText, desc) = when(logItem.type) {
                 LogItem.Type.LOCK              -> "기능 차단" to "수동"
                 LogItem.Type.TRY_UNLOCK_BEACON -> "비콘기반 해제" to "시도"
-                LogItem.Type.TRY_UNLOCK_GPS    -> "위치기반 해제(GPS)" to "시도"
+                LogItem.Type.TRY_UNLOCK_GPS    -> "위치기반 해제(GPS)" to (logItem.desc ?: "시도")
                 LogItem.Type.APP_UPDATE        -> "앱 업데이트" to logItem.desc
                 LogItem.Type.INITIAL_INSTALL   -> "최초 설치" to null
                 LogItem.Type.UNLOCK            -> "기능 허용" to logItem.desc
@@ -80,7 +95,7 @@ class LogAdapter(
             if (logItem.type == LogItem.Type.LOCK /* || logItem.type == LogItem.Type.UNLOCK*/)
                 binding.rlListItem.setBackgroundColor(binding.root.context.getColor(R.color.mdm_log_bg_red))
             else
-                binding.rlListItem.setBackgroundColor(binding.root.context.getColor(R.color.mdm_drawer_background))
+                binding.rlListItem.setBackgroundColor(binding.root.context.getColor(R.color.mdm_log_bg))
         }
     }
 }

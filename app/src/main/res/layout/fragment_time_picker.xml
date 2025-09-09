@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical"
+              android:orientation="horizontal"
               android:gravity="center">
 
     <TimePicker
@@ -10,5 +10,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:timePickerMode="spinner" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="초:"
+            android:textSize="16sp"
+            android:layout_marginEnd="8dp"
+            android:layout_gravity="center_vertical" />
+
+        <NumberPicker
+            android:id="@+id/secondsPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>
