@@ -36,13 +36,14 @@ class BootReceiver : BroadcastReceiver() {
         
         if (cameraBlockingManager.shouldServicesBeRunning()) {
             // Start all necessary services
-            startCameraBlockingServices(context, cameraBlockingManager)
+            startCameraBlockingServices(cameraBlockingManager)
+            cameraBlockingManager.ensureServicesRunning()
         } else {
             Log.d(TAG, "Camera blocking disabled in settings, not starting services")
         }
     }
 
-    private fun startCameraBlockingServices(context: Context, cameraBlockingManager: CameraBlockingManager) {
+    private fun startCameraBlockingServices(cameraBlockingManager: CameraBlockingManager) {
         try {
             // Use manager to start all services
             cameraBlockingManager.startAllServices()

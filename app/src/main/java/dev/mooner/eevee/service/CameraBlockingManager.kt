@@ -1,8 +1,6 @@
 package dev.mooner.eevee.service
 
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import dev.mooner.eevee.Constants
 import dev.mooner.eevee.utils.CameraBlockUtils
 import dev.mooner.eevee.view.settings.SettingsRepository
@@ -123,7 +121,7 @@ class CameraBlockingManager(private val context: Context) {
     fun startAllServices() {
         try {
             // Always start foreground service if camera blocking should be enabled
-            if (isLockEnabled() && isActualLockEnabled()) {
+            if (shouldServicesBeRunning()) {
                 CameraBlockingForegroundService.startService(context)
                 android.util.Log.d("CameraBlockingManager", "Foreground service started")
             }
@@ -136,7 +134,7 @@ class CameraBlockingManager(private val context: Context) {
      * Checks if all services should be running based on current settings
      */
     fun shouldServicesBeRunning(): Boolean {
-        return isLockEnabled() && isActualLockEnabled()
+        return isLockEnabled()
     }
 
     /**
